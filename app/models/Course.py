@@ -9,9 +9,9 @@
 """
 from system.core.model import Model
 
-class WelcomeModel(Model):
+class Course(Model):
     def __init__(self):
-        super(WelcomeModel, self).__init__()
+        super(Course, self).__init__()
     """
     Below is an example of a model method that queries the database for all users in a fictitious application
     
@@ -38,3 +38,28 @@ class WelcomeModel(Model):
         return self.db.query_db(query, data)
 
     """
+
+
+    def get_all_courses_m(self):
+        return self.db.query_db("SELECT * FROM courses ORDER BY created_at DESC")
+
+    def add_one_course_m(self, new_course_details):
+        query = "INSERT INTO courses (course_name, description, created_at, updated_at) \
+        VALUES (:spec_course_name, :spec_description, NOW(), NOW())"
+        data = { 
+        'spec_course_name': new_course_details['title'],
+        'spec_description': new_course_details['desc']
+        }
+        return self.db.query_db(query, data)
+
+    def remove_m(self,remove_id):
+        query = "SELECT * from courses WHERE id= :spec_id"
+        data = { 'spec_id': remove_id }
+        return self.db.query_db(query, data)
+
+    def remove_one_course_m(self, new_remove_id):
+        query = "DELETE FROM courses where id = :spec_id"
+        data = {'spec_id': new_remove_id}
+        return self.db.query_db(query, data)
+
+
